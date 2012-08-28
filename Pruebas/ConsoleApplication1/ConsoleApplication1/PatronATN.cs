@@ -19,26 +19,39 @@ namespace ConsoleApplication1
             int libres=0;
             int contador_final=0;
 
-            
-            for (int a = 0; a < 4; a++) {
-                for (int i = 0; i < 7; i++){
-                    if (libres == 2)
-                        continue;
-                    else{                     
-                        patron.turno[i] =  aux[a]+" ";
-                        if (a == 3) {
-                            libres++;
-                        }
-                    }
-                }
-                if (patron.esValido())
-                {
-                    Console.WriteLine(patron.toString());
-                    final[contador_final] = patron;
-                }
-                patron = new PatronATN();
-            }
-            
+            for (int a = 0; a < 4; a++) { //Iterador de turnos de turnos
+                for (int i = 0; i < 7; i++) { //Iterador sobre dias
+                    patron.turno[i] = aux[a];
+                    for (int b = 0; b < 4; b++) {
+                        for (int j = 1; j < 7; j++) {
+                            if (i == 0 || i == 1 || (i == 3 && libres<2)) //si el turno anterior es A, T o L (y me quedan libres que poner)
+                            {   
+                                patron.turno[j] = aux[b];//entonces puedo usar cualquier turno
+                                if (b == 3)//si acabo de poner un dia libre, descuento 
+                                    libres++;
+                            }
+                            else {  //el dia anterior fue turno noche
+                                if (b == 3 && libres <2) {//y estoy posicionando un turno libre
+                                    patron.turno[j] = aux[b];
+                                    libres++;
+                                }
+                                if (b == 2) //sino, la unica posibilidad es poner otro turno noche
+                                {
+                                    patron.turno[j] = aux[b];
+                                }
+                                else //keep walking, nothing to do here ~~ (no queda ninguna posibilidad para rellenar el dia, no deberia ocurrir nunca)
+                                    continue;
+                            }//else
+                        }//for j
+                    }//for b
+                    //cuando termino de iterar sobre el 2º termino guardo la partida y reseteo
+                    final[contador_final++] = patron;
+
+                    //falta resetear;:
+
+                }//for i
+            }//for a
+
             return final;
         }
 
