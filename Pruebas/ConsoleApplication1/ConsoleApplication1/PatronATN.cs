@@ -15,64 +15,32 @@ namespace ConsoleApplication1
         public PatronATN[] todos(){
             string[] aux={"A","T","N","L"};
             PatronATN patron=new PatronATN();
-            PatronATN [] final= new PatronATN[1000];
+            PatronATN [] final= new PatronATN[10000];
+            string toFile = "";
             int libres=0, libres_ayer=0;
             int contador_final=0;
 
-            for (int a = 0; a < 4; a++) { //Iterador de turnos de turnos
-                
-                for (int i = 0; i < 6; i++) { //Iterador sobre dias
-                    
+            for (int a = 0; a < 4; a++) { //Iterador de turnos
+                for (int i = 0; i < 5; i++) { //Iterador sobre dias
                     patron.turno[i] = aux[a];
-                    if (a == 3) {
-                        libres_ayer++;
-                    }
-
-                    if (a == 3 && libres_ayer>2) {
-                        continue;
-                    }
-
-                    for (int b = 0; b < 4; b++) {
-                        for (int j = i+1; j < 7; j++) {
-                            if (i == 0 || i == 1 || i == 3) //si el turno anterior es A, T o L 
-                            {
-                                if (b == 3 && (libres_ayer+libres) < 2) { //si tendria que poner un libre y tengo libres disponibles
-                                    libres++;
-                                    patron.turno[j] = aux[b];
-                                }
-                                if (b != 3) { //si no es un libre el que tengo que colocar, da lo mismo
-                                    patron.turno[j] = aux[b];
+                    for (int b = 0; b < 4; b++) {//Iterador sobre turnos 2
+                        for (int j = i+1; j < 6; j++) {//Iterador sobre 2 dia
+                            patron.turno[j] = aux[b];
+                            for (int c = 0; c < 4; c++) {
+                                for (int k = j + 1; k < 7; k++) {
+                                    patron.turno[k] = aux[c];
+                                    Console.WriteLine(patron.toString());
+                                    toFile += patron.toString()+Environment.NewLine;
+                                    final[contador_final++] = patron;
                                 }
                             }
-                            else {  //el dia anterior fue turno noche
-                                if (b == 3 && (libres_ayer+libres) < 2)
-                                {//y estoy posicionando un turno libre
-                                    patron.turno[j] = aux[b];
-                                    libres++;
-                                }
-                                if (b == 2) //sino, la unica posibilidad es poner otro turno noche
-                                {
-                                    patron.turno[j] = aux[b];
-                                }
-                                else //keep walking, nothing to do here (no queda ninguna posibilidad para rellenar el dia, no deberia ocurrir nunca)
-                                    continue;
-                            }//else
                             
-                        }//for j
-                        Console.WriteLine(patron.toString());
-                        final[contador_final++] = patron;
-                        libres = 0;
+                        }
                         
-                    }//for b
-                    //cuando termino de iterar sobre el 2º termino guardo la partida y reseteo
-                    //if (patron.esValido()){
-                        
-                    //}
-
-                    //falta resetear;:
-
-                }//for i
-            }//for a
+                    }
+                }
+            }
+            System.IO.File.WriteAllText(@"D:\Proyecto_Andes\Git\rostering\Pruebas\patrones.txt", toFile);
             Console.WriteLine(""+contador_final);
             return final;
         }
