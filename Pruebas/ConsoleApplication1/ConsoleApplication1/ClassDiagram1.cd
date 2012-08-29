@@ -8,32 +8,25 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="ConsoleApplication1.Patron">
-    <Position X="4.25" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>Patron.cs</FileName>
-      <HashCode>AAAAAAQAACAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ConsoleApplication1.Mes">
-    <Position X="7" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>Mes.cs</FileName>
-      <HashCode>AEAAAABAAAAAEAAAAAAABAAAAAAAAEAAAAAAAAAAAIA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ConsoleApplication1.PatronATN">
-    <Position X="4" Y="3.75" Width="1.5" />
+  <Class Name="ConsoleApplication1.PatronATNS">
+    <Position X="6" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>PatronATN.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAEAAAAAAQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAACAAAAABAAAAAAEAAAAAQAAAAAAAAQ=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="ConsoleApplication1.MesATN">
-    <Position X="8.25" Y="4" Width="1.5" />
+    <Position X="10.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <FileName>MesATN.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ConsoleApplication1.PatronesATNS">
+    <Position X="1.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>PatronesATN.cs</FileName>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAABAAABAAAAAAACAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
 </ClassDiagram>
