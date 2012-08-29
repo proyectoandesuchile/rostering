@@ -12,37 +12,42 @@ namespace ConsoleApplication1
             this.turno = new string[7];
         }
 
-        public PatronATN[] todos(){
+        public PatronATN[] todosATN(){ //patron tiene largo 9, warning
             string[] aux={"A","T","N","L"};
-            PatronATN patron=new PatronATN();
-            PatronATN [] final= new PatronATN[10000];
-            string toFile = "";
-            int libres=0, libres_ayer=0;
-            int contador_final=0;
+            PatronATN patronATN=new PatronATN();
+            PatronATN[] resultado = new PatronATN[10000];
 
-            for (int a = 0; a < 4; a++) { //Iterador de turnos
-                for (int i = 0; i < 5; i++) { //Iterador sobre dias
-                    patron.turno[i] = aux[a];
-                    for (int b = 0; b < 4; b++) {//Iterador sobre turnos 2
-                        for (int j = i+1; j < 6; j++) {//Iterador sobre 2 dia
-                            patron.turno[j] = aux[b];
-                            for (int c = 0; c < 4; c++) {
-                                for (int k = j + 1; k < 7; k++) {
-                                    patron.turno[k] = aux[c];
-                                    Console.WriteLine(patron.toString());
-                                    toFile += patron.toString()+Environment.NewLine;
-                                    final[contador_final++] = patron;
-                                }
-                            }
-                            
-                        }
-                        
-                    }
-                }
+
+            Console.WriteLine(resto(2,"A "));
+            Console.WriteLine(resto(2,"T "));
+            Console.WriteLine(resto(2,"N "));
+            Console.WriteLine(resto(2,"L "));
+            
+
+
+            return resultado;
+
+        }
+
+        public string resto(int dias, string anterior) {
+            string result="";
+            if (dias > 1)
+            {
+                result+= resto(dias-1, anterior+"A ");
+                result+= resto(dias-1, anterior+"T ");
+                result+= resto(dias-1, anterior+"N ");
+                result+= resto(dias-1, anterior+"L ");
             }
-            System.IO.File.WriteAllText(@"D:\Proyecto_Andes\Git\rostering\Pruebas\patrones.txt", toFile);
-            Console.WriteLine(""+contador_final);
-            return final;
+            else {
+                result+= anterior+ "A"+ Environment.NewLine+ 
+                         anterior+ "T"+ Environment.NewLine+
+                         anterior+ "N"+ Environment.NewLine+
+                         anterior+ "L"+ Environment.NewLine
+                    ;
+                
+            }
+
+            return result;
         }
 
         public Boolean esValido() {
