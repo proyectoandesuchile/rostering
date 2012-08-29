@@ -33,9 +33,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MesATN.cs" />
-    <Compile Include="PatronATN.cs" />
-    <Compile Include="PatronesATN.cs" />
+    <Compile Include="MesATNS.cs" />
+    <Compile Include="PatronATNS.cs" />
+    <Compile Include="PatronesATNS.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

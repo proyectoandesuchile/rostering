@@ -9,24 +9,24 @@
     </TypeIdentifier>
   </Class>
   <Class Name="ConsoleApplication1.PatronATNS">
-    <Position X="6" Y="0.5" Width="1.5" />
+    <Position X="6.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <FileName>PatronATN.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAACAAAAABAAAAAAEAAAAAQAAAAAAAAQ=</HashCode>
+      <FileName>PatronATNS.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAQAAAAAAAAQ=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="ConsoleApplication1.MesATN">
-    <Position X="10.25" Y="2.25" Width="1.5" />
+    <Position X="9.75" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <FileName>MesATN.cs</FileName>
+      <FileName>MesATNS.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="ConsoleApplication1.PatronesATNS">
-    <Position X="1.75" Y="3.5" Width="1.5" />
+    <Position X="3.5" Y="2" Width="1.5" />
     <TypeIdentifier>
-      <FileName>PatronesATN.cs</FileName>
-      <HashCode>AAAAAAAABAAAAAAAAAAAAABAAABAAAAAAACAAAAAAAA=</HashCode>
+      <FileName>PatronesATNS.cs</FileName>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAABAAAAoAACAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
 </ClassDiagram>
