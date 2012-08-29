@@ -12,30 +12,36 @@ namespace ConsoleApplication1
             this.turno = new string[7];
         }
 
-        public string todosATN(){ //patron tiene largo 9, warning
-            string[] aux={"A","T","N","L"};
-            PatronATN patronATN=new PatronATN();
-            PatronATN[] resultado = new PatronATN[10000];
+        public PatronATN[] patronATN_total(string patrones) { //por conveniencia esta hecho una estructura co n 
+            PatronATN[] patronATN = new PatronATN[patrones.Length / 9];//9 es el largo de una linea
+            string linea="";
+            for (int i = 0; i < patronATN.Length-1; i++) { 
+                linea= patrones.Substring(i*9,7);
+                patronATN[i] = new PatronATN();
+                for(int j=0; j<linea.Length; j++){//los ultimos caracteres de una linea son 2 chars que hacen el salto de linea
+                    patronATN[i].turno[j] = linea.Substring(j,1);
+                }
+            }
+            return patronATN;
+        }
 
-
+        public string todosATN()
+        { //patron tiene largo 9, warning
             string resultado_string="";
-
-            resultado_string += resto(6, "A ") + resto(6, "T ") + resto(6, "N ") + resto(6, "L ");
-
-            //Console.WriteLine(resultado_string);
-
+            
+            resultado_string += resto(6, "A") + resto(6, "T") + resto(6, "N") + resto(6, "L");
             return resultado_string;
 
         }
 
-        public string resto(int dias, string anterior) {
+        public string resto(int dias, string anterior) {//el que hace la magia de verdad
             string result="";
             if (dias > 1)
             {
-                result+= resto(dias-1, anterior+"A ");
-                result+= resto(dias-1, anterior+"T ");
-                result+= resto(dias-1, anterior+"N ");
-                result+= resto(dias-1, anterior+"L ");
+                result+= resto(dias-1, anterior+"A");
+                result+= resto(dias-1, anterior+"T");
+                result+= resto(dias-1, anterior+"N");
+                result+= resto(dias-1, anterior+"L");
             }
             else {
                 result+= anterior+ "A"+ Environment.NewLine+ 

@@ -59,9 +59,13 @@ namespace ConsoleApplication1
             //Console.WriteLine(patronATN.todosATN());
             string patron_final = patronATN.todosATN();
             
+            PatronATN[] resultado = patronATN.patronATN_total(patron_final);
+            
             //System.IO.File.WriteAllText(@"D:\Proyecto_Andes\Git\rostering\Pruebas\patrones.txt", patron_final);
-         
-            Console.WriteLine("Ingrese patron a buscar");
+
+            Console.WriteLine("primera linea antes del salto de linea: "+ patron_final.Substring(0,7));
+            Console.WriteLine("segunda linea despues del primer salto de linea: "+ patron_final.Substring(9,7));
+            Console.WriteLine("Ingrese patron a buscar: ");
             string newline = Console.ReadLine();
             while (newline != null)
             {
@@ -73,13 +77,12 @@ namespace ConsoleApplication1
                     Console.WriteLine("Patron NO encontrado");
                 }
 
+
                 Console.WriteLine("Ingrese nuevo patron a buscar");
                 newline = Console.ReadLine(); 
             
             }
 
-        }
-
-        
+        }    
     }
 }
