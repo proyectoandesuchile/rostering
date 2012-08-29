@@ -12,20 +12,19 @@ namespace ConsoleApplication1
             this.turno = new string[7];
         }
 
-        public PatronATN[] todosATN(){ //patron tiene largo 9, warning
+        public string todosATN(){ //patron tiene largo 9, warning
             string[] aux={"A","T","N","L"};
             PatronATN patronATN=new PatronATN();
             PatronATN[] resultado = new PatronATN[10000];
 
 
-            Console.WriteLine(resto(2,"A "));
-            Console.WriteLine(resto(2,"T "));
-            Console.WriteLine(resto(2,"N "));
-            Console.WriteLine(resto(2,"L "));
-            
+            string resultado_string="";
 
+            resultado_string += resto(6, "A ") + resto(6, "T ") + resto(6, "N ") + resto(6, "L ");
 
-            return resultado;
+            //Console.WriteLine(resultado_string);
+
+            return resultado_string;
 
         }
 
@@ -63,6 +62,14 @@ namespace ConsoleApplication1
                 resultado += this.turno[i];
             }
             return resultado;
+        }
+
+        public Boolean existe(string Base, string buscado)
+        {
+            if (Base.IndexOf(buscado) != -1)
+                return true;
+            else
+                return false;
         }
     }
 }

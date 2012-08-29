@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ConsoleApplication1
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -26,7 +26,7 @@ namespace ConsoleApplication1
                         int[]a= {original[0],original[1],original[2],original[3],original[4],original[5],original[6],i,(5-j+1)};
                         todos[aux]=new Patron(a);
 
-                        Console.WriteLine("");
+                        //Console.WriteLine("");
                         aux++;
                         original[j]=1;
                     }
@@ -56,10 +56,30 @@ namespace ConsoleApplication1
 
             PatronATN patronATN = new PatronATN();
             Console.WriteLine("incio de generador ATN");
-            patronATN.todosATN();
-
-            Console.ReadLine();
+            //Console.WriteLine(patronATN.todosATN());
+            string patron_final = patronATN.todosATN();
             
+            //System.IO.File.WriteAllText(@"D:\Proyecto_Andes\Git\rostering\Pruebas\patrones.txt", patron_final);
+         
+            Console.WriteLine("Ingrese patron a buscar");
+            string newline = Console.ReadLine();
+            while (newline != null)
+            {
+                if( patron_final.IndexOf(newline) > -1){
+                    Console.WriteLine("Patron encontrado");
+                }
+
+                else{
+                    Console.WriteLine("Patron NO encontrado");
+                }
+
+                Console.WriteLine("Ingrese nuevo patron a buscar");
+                newline = Console.ReadLine(); 
+            
+            }
+
         }
+
+        
     }
 }
