@@ -4,12 +4,12 @@ using System.Text;
 
 namespace ConsoleApplication1
 {
-    public class MesATN : PatronATN
+    public class MesATN : PatronATNS
     {
-        public PatronATN[] semanas;
+        public PatronATNS[] semanas;
 
         public MesATN() {
-            this.semanas = new PatronATN[4];
+            this.semanas = new PatronATNS[4];
         }
 
 
