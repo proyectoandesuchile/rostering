@@ -82,26 +82,46 @@ namespace ConsoleApplication1
             }
         }
 
-       /* public void diasSalientes()//limpiar los dias que no cumplen con las reglas de saliente
+        public void turnos11horas() //esta va a haber que correrlo tambien cuando arme los meses,
         {
-            for (int i = 0; i < this.patrones.Length; i++) {
-                int noches=0;
+            for (int i = 0; i < this.patrones.Length; i++)
+            {
                 if (this.patrones[i] == null)
                     continue;
-
-                for (int j = 0; j < this.patrones[i].turno.Length; j++) {
+                string dia_previo=this.patrones[i].turno[0];
+                for (int j = 1; j < this.patrones[i].turno.Length; j++) { 
                     
-                    if(noches<4 && this.patrones[i].turno[j].Equals("S")){
+                    if(dia_previo.Equals("N") && (this.patrones[i].turno[j].Equals("N") || this.patrones[i].turno[j].Equals("L")))
+                        continue;
+                    if (dia_previo.Equals("N"))
+                    {
                         this.patrones[i] = null;
                         break;
                     }
-                    if (this.patrones[i].turno[j].Equals("N"))
-                    {
-                        noches++;
-                    }
                 }
             }
-        }*/
+        }
+
+        /* public void diasSalientes()//limpiar los dias que no cumplen con las reglas de saliente
+         {
+             for (int i = 0; i < this.patrones.Length; i++) {
+                 int noches=0;
+                 if (this.patrones[i] == null)
+                     continue;
+
+                 for (int j = 0; j < this.patrones[i].turno.Length; j++) {
+                    
+                     if(noches<4 && this.patrones[i].turno[j].Equals("S")){
+                         this.patrones[i] = null;
+                         break;
+                     }
+                     if (this.patrones[i].turno[j].Equals("N"))
+                     {
+                         noches++;
+                     }
+                 }
+             }
+         }*/
 
         public void clean()
         {
