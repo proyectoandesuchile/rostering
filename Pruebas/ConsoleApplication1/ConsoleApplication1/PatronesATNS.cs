@@ -59,69 +59,54 @@ namespace ConsoleApplication1
             return result;
         }
 
-        public void diasLibres() //por defecto vamos a trabajar con turnos 5x2
-        {
+        
+        /*algoritmo de revisar cada patron*/
+        public void aplicarFiltros(){
             for (int i = 0; i < this.patrones.Length; i++) {
-                int libres = 0;
-               
-                if (this.patrones[i] == null)
-                    continue;
-
-                for (int j = 0; j < this.patrones[i].turno.Length; j++) {
-                    /* en caso de que se quiera que TENGAN 2 dias libres
-                     * if (libres==2 && this.patrones[i].turno[j].Equals("L")){
-                        this.patrones[i]=null;
-                        break;
-                    }*/
-                        
-                    if (this.patrones[i].turno[j].Equals("L"))
-                        libres++;
-                }
-                if (libres < 2) //si tienes menos de 2 libres en una semana, patron invalido
-                    this.patrones[i] = null;
+                //algoritmos de revisiones de semana
+                //diasLibres
+                this.diasLibres(i);
+                this.turnos11horas(i);
+                /*Agregar nuevas reglas de limpieza de patrones semanales aqui
+                 */
             }
         }
 
-        public void turnos11horas() //esta va a haber que correrlo tambien cuando arme los meses,
+        /*Filtros de patrones semanales*/
+
+        public void diasLibres(int i)/*Considerando turnos de 5x2*/
         {
-            for (int i = 0; i < this.patrones.Length; i++)
+            if (this.patrones[i] == null){
+                return;}
+            int libres = 0;
+            for(int j=0; j< this.patrones[i].turno.Length; j++){
+                if (this.patrones[i].turno[j].Equals("L"))
+                    libres++;
+            }
+            if (libres < 2)
+                this.patrones[i] = null;
+        }
+
+        public void turnos11horas(int i) /*11 horas de descanso como minimo entre turnos*/
+        {
+            if (this.patrones[i] == null)
+                return;
+           
+            string dia_previo=this.patrones[i].turno[0];
+            for (int j = 1; j < this.patrones[i].turno.Length; j++)
             {
-                if (this.patrones[i] == null)
+                if (dia_previo.Equals("N") && (this.patrones[i].turno[j].Equals("N") || this.patrones[i].turno[j].Equals("L")))
                     continue;
-                string dia_previo=this.patrones[i].turno[0];
-                for (int j = 1; j < this.patrones[i].turno.Length; j++) { 
-                    
-                    if(dia_previo.Equals("N") && (this.patrones[i].turno[j].Equals("N") || this.patrones[i].turno[j].Equals("L")))
-                        continue;
-                    if (dia_previo.Equals("N"))
-                    {
-                        this.patrones[i] = null;
-                        break;
-                    }
+                else if (dia_previo.Equals("N")){
+                    this.patrones[i] = null;
+                    break;
                 }
             }
         }
+        
+        /*Fin de Filtros semanales*/
 
-        /* public void diasSalientes()//limpiar los dias que no cumplen con las reglas de saliente
-         {
-             for (int i = 0; i < this.patrones.Length; i++) {
-                 int noches=0;
-                 if (this.patrones[i] == null)
-                     continue;
-
-                 for (int j = 0; j < this.patrones[i].turno.Length; j++) {
-                    
-                     if(noches<4 && this.patrones[i].turno[j].Equals("S")){
-                         this.patrones[i] = null;
-                         break;
-                     }
-                     if (this.patrones[i].turno[j].Equals("N"))
-                     {
-                         noches++;
-                     }
-                 }
-             }
-         }*/
+        /*funciones auxiliares*/
 
         public void clean()
         {
@@ -152,5 +137,79 @@ namespace ConsoleApplication1
             }
             this.text = t;
         }
+
+        /* fin de funciones auxiliares*/
+
+
+
+        /*funciones deprecadas*/
+        
+        public void turnos11horas_deprecated() 
+        {
+            for (int i = 0; i < this.patrones.Length; i++)
+            {
+                if (this.patrones[i] == null)
+                    continue;
+                string dia_previo=this.patrones[i].turno[0];
+                for (int j = 1; j < this.patrones[i].turno.Length; j++) { 
+                    
+                    if(dia_previo.Equals("N") && (this.patrones[i].turno[j].Equals("N") || this.patrones[i].turno[j].Equals("L")))
+                        continue;
+                    if (dia_previo.Equals("N"))
+                    {
+                        this.patrones[i] = null;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void diasLibres_deprecated() 
+        {
+            for (int i = 0; i < this.patrones.Length; i++)
+            {
+                int libres = 0;
+
+                if (this.patrones[i] == null)
+                    continue;
+
+                for (int j = 0; j < this.patrones[i].turno.Length; j++)
+                {
+                    /* en caso de que se quiera que TENGAN 2 dias libres
+                     * if (libres==2 && this.patrones[i].turno[j].Equals("L")){
+                        this.patrones[i]=null;
+                        break;
+                    }*/
+
+                    if (this.patrones[i].turno[j].Equals("L"))
+                        libres++;
+                }
+                if (libres < 2) //si tienes menos de 2 libres en una semana, patron invalido
+                    this.patrones[i] = null;
+            }
+        }
+
+        public void diasSalientes_deprecated()
+         {
+             for (int i = 0; i < this.patrones.Length; i++) {
+                 int noches=0;
+                 if (this.patrones[i] == null)
+                     continue;
+
+                 for (int j = 0; j < this.patrones[i].turno.Length; j++) {
+                    
+                     if(noches<4 && this.patrones[i].turno[j].Equals("S")){
+                         this.patrones[i] = null;
+                         break;
+                     }
+                     if (this.patrones[i].turno[j].Equals("N"))
+                     {
+                         noches++;
+                     }
+                 }
+             }
+         }
+        /*fin de funciones deprecadas*/
+
     }
 }
