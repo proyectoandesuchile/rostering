@@ -7,7 +7,19 @@
 
 using namespace PrincipalForm;
 
-int main() {
+int main(array<System::String ^> ^args)
+{
+	// Habilitar los efectos visuales de Windows XP antes de crear ningún control
+	Application::EnableVisualStyles();
+	Application::SetCompatibleTextRenderingDefault(false); 
+
+	// Crear la ventana principal y ejecutarla
+	Application::Run(gcnew Principal());
+	return 0;
+}
+
+
+int aprendandoBoton() {
   const int numcols = 3;
   const int numrows = 1;
   double obj[] = { 1.0, 1.0, 1.0}; // obj: Max x0 + x1
