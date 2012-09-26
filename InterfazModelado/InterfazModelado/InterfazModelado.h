@@ -1,1 +1,2 @@
-int aprendandoBoton();
+int apretarBoton();
+double* apretarBoton2();

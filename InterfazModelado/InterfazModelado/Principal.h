@@ -1,4 +1,6 @@
 #include "InterfazModelado.h"
+#include <sstream>
+#include <string>
 
 #pragma once
 
@@ -89,8 +91,11 @@ namespace PrincipalForm {
 		}
 #pragma endregion
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-				 int resultado = aprendandoBoton();
-				 this->textBox1->Text= "resultado";
+				 //int resultado = apretarBoton();
+				 double *resultado = apretarBoton2();
+				 //printf(" I GET %g %g %g\n", resultado[0], resultado[1], resultado[2]);
+				 this->textBox1->Text= Convert::ToString(resultado[0]) + " "+ 
+					 Convert::ToString(resultado[1])+ " "+Convert::ToString(resultado[2]);
 			 }
 	};
 }
