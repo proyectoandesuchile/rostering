@@ -1,7 +1,6 @@
 #pragma once
 
-
-namespace ModeladoCBC {
+namespace PrincipalForm {
 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -11,18 +10,12 @@ namespace ModeladoCBC {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Resumen de Form1
-	///
-	/// ADVERTENCIA: si cambia el nombre de esta clase, deberá cambiar la
-	///          propiedad 'Nombre de archivos de recursos' de la herramienta de compilación de recursos administrados
-	///          asociada con todos los archivos .resx de los que depende esta clase. De lo contrario,
-	///          los diseñadores no podrán interactuar correctamente con los
-	///          recursos adaptados asociados con este formulario.
+	/// Resumen de MyForm
 	/// </summary>
-	public ref class Form1 : public System::Windows::Forms::Form
+	public ref class Principal : public System::Windows::Forms::Form
 	{
 	public:
-		Form1(void)
+		Principal(void)
 		{
 			InitializeComponent();
 			//
@@ -34,7 +27,7 @@ namespace ModeladoCBC {
 		/// <summary>
 		/// Limpiar los recursos que se estén utilizando.
 		/// </summary>
-		~Form1()
+		~Principal()
 		{
 			if (components)
 			{
@@ -57,11 +50,10 @@ namespace ModeladoCBC {
 		{
 			this->components = gcnew System::ComponentModel::Container();
 			this->Size = System::Drawing::Size(300,300);
-			this->Text = L"Form1";
+			this->Text = L"MyForm";
 			this->Padding = System::Windows::Forms::Padding(0);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 		}
 #pragma endregion
 	};
 }
-
