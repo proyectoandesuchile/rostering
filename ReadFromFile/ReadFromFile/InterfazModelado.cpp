@@ -7,7 +7,7 @@
 
 using namespace PrincipalForm;
 
-
+[STAThread]
 int main(array<System::String ^> ^args)
 {
 	// Habilitar los efectos visuales de Windows XP antes de crear ningún control
