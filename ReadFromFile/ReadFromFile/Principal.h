@@ -36,8 +36,14 @@ namespace PrincipalForm {
 				delete components;
 			}
 		}
+	private: array<System::Windows::Forms::DataGridViewTextBoxColumn^>  ^ColumnArr; //arreglo de columnas no inicializado
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Label^  labelResultado;
+	private: System::Windows::Forms::DataGridView^  TablaCSV;
+	
+
+
+
 	protected: 
 
 	private:
@@ -55,11 +61,13 @@ namespace PrincipalForm {
 		{
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->labelResultado = (gcnew System::Windows::Forms::Label());
+			this->TablaCSV = (gcnew System::Windows::Forms::DataGridView());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->TablaCSV))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(102, 109);
+			this->button1->Location = System::Drawing::Point(295, 358);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 0;
@@ -70,21 +78,33 @@ namespace PrincipalForm {
 			// labelResultado
 			// 
 			this->labelResultado->AutoSize = true;
-			this->labelResultado->Location = System::Drawing::Point(102, 153);
+			this->labelResultado->Location = System::Drawing::Point(307, 432);
 			this->labelResultado->Name = L"labelResultado";
 			this->labelResultado->Size = System::Drawing::Size(13, 13);
 			this->labelResultado->TabIndex = 1;
 			this->labelResultado->Text = L"0";
 			// 
+			// TablaCSV
+			// 
+			this->TablaCSV->AllowUserToDeleteRows = false;
+			this->TablaCSV->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+			this->TablaCSV->Location = System::Drawing::Point(13, 13);
+			this->TablaCSV->Name = L"TablaCSV";
+			this->TablaCSV->Size = System::Drawing::Size(677, 348);
+			this->TablaCSV->TabIndex = 2;
+			//this->TablaCSV->CreateColumnsInstance;
+			// 
 			// Principal
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 262);
+			this->ClientSize = System::Drawing::Size(748, 496);
+			this->Controls->Add(this->TablaCSV);
 			this->Controls->Add(this->labelResultado);
 			this->Controls->Add(this->button1);
 			this->Name = L"Principal";
 			this->Text = L"MyForm";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->TablaCSV))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -98,9 +118,53 @@ namespace PrincipalForm {
 				 myfile.open ("Txt/meh.txt"); //directorio debe existir, agrego al final
 				 
 				 getline(myfile, line);
-				 String^ meh = gcnew String(line.c_str());
 				 
-				 labelResultado->Text = meh;
+
+				 char * cstr, *p; //auxiliares para leer y tokenizar
+				 
+				 cstr = new char [line.size()+1];
+				 strcpy (cstr, line.c_str());
+				 int i= std::count(line.begin(), line.end(), ',');
+				 i++;
+				 /*
+				 creamos un arreglo para los nombres de los atributos, y otro para los labels
+				 */
+				 std::string* atributos= new std::string[i];
+				 
+				 array<System::Windows::Forms::Label^>  ^LabelArr=gcnew array<System::Windows::Forms::Label^>(i);
+
+
+				 p=strtok (cstr,",");//tokeniza
+				 int aux=0;
+				 while (p!=NULL) //mientras hayan cosas
+				 {
+					//cout << p << endl;
+					atributos[aux++]=p;
+					p=strtok(NULL,","); //tokeniza
+				 }
+
+				 /*inicializamos el arreglo de labels*/
+
+				 /*for(int j=0; j<i ;j++){
+					LabelArr[j]= gcnew System::Windows::Forms::Label();
+					//cout<<atributos[j].c_str()<<endl;
+					LabelArr[j]->Text = gcnew String(atributos[j].c_str());
+				 }*/
+
+				 /*inicializamos el arreglo de columnas*/
+				 ColumnArr= gcnew array<System::Windows::Forms::DataGridViewTextBoxColumn^>(i);
+				 for(int j=0; j<i; j++){
+					ColumnArr[j]=(gcnew System::Windows::Forms::DataGridViewTextBoxColumn());//esto crea una nueva columna
+					this->ColumnArr[j]->HeaderText= gcnew String(atributos[j].c_str());//texto del titulo
+					this->ColumnArr[j]->Name=gcnew String(atributos[j].c_str());//nombre de la columna (para efectos de donde agregar datos)
+					this->TablaCSV->Columns->Add(ColumnArr[j]);
+				 }
+				 labelResultado -> Text = gcnew String(line.c_str());
+				 
+				 delete[] cstr; 
+				 delete[] p;
+				 delete[] atributos;
+
 				 myfile.close();
 			 }
 			 catch (...){
