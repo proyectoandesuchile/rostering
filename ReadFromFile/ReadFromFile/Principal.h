@@ -40,6 +40,7 @@ namespace PrincipalForm {
 	private: System::Windows::Forms::Button^  button1;
 	private: System::Windows::Forms::Label^  labelResultado;
 	private: System::Windows::Forms::DataGridView^  TablaCSV;
+	private: array<System::String^> ^FilaArr;
 	
 
 
@@ -111,11 +112,14 @@ namespace PrincipalForm {
 		}
 #pragma endregion
 	private: System::Void AbrirArchivoClick(System::Object^  sender, System::EventArgs^  e) {
-			 int a=0;
+		    /*limpiamos lo que haya*/
+			this->TablaCSV->Rows->Clear();
+			this->TablaCSV->Columns->Clear();
+
 			 try{
 				 ifstream myfile;
 				 std::string line;
-				 myfile.open ("Txt/meh.txt"); //directorio debe existir, agrego al final
+				 myfile.open ("Txt/test.txt"); //directorio debe existir, agrego al final
 				 
 				 getline(myfile, line);
 				 
@@ -124,15 +128,11 @@ namespace PrincipalForm {
 				 
 				 cstr = new char [line.size()+1];
 				 strcpy (cstr, line.c_str());
-				 int i= std::count(line.begin(), line.end(), ',');
-				 i++;
-				 /*
-				 creamos un arreglo para los nombres de los atributos, y otro para los labels
-				 */
-				 std::string* atributos= new std::string[i];
+				 int i= std::count(line.begin(), line.end(), ',')+2;
 				 
-				 array<System::Windows::Forms::Label^>  ^LabelArr=gcnew array<System::Windows::Forms::Label^>(i);
-
+				 //creamos un arreglo para los nombres de los atributos
+				 
+				 std::string* atributos= new std::string[i];
 
 				 p=strtok (cstr,",");//tokeniza
 				 int aux=0;
@@ -143,28 +143,69 @@ namespace PrincipalForm {
 					p=strtok(NULL,","); //tokeniza
 				 }
 
-				 /*inicializamos el arreglo de labels*/
-
-				 /*for(int j=0; j<i ;j++){
-					LabelArr[j]= gcnew System::Windows::Forms::Label();
-					//cout<<atributos[j].c_str()<<endl;
-					LabelArr[j]->Text = gcnew String(atributos[j].c_str());
-				 }*/
-
-				 /*inicializamos el arreglo de columnas*/
+				 /*inicializamos el arreglo de columnas y las agregamos a la tabla*/
 				 ColumnArr= gcnew array<System::Windows::Forms::DataGridViewTextBoxColumn^>(i);
-				 for(int j=0; j<i; j++){
+
+				 /*columna numero de entrada*/
+				 ColumnArr[0]=(gcnew System::Windows::Forms::DataGridViewTextBoxColumn());//esto crea una nueva columna
+			     this->ColumnArr[0]->HeaderText= "Fila";//texto del titulo
+				 this->ColumnArr[0]->Name="Filanmr";//nombre de la columna (para efectos de donde agregar datos)
+				 this->TablaCSV->Columns->Add(ColumnArr[0]);//agrega a la tabla
+				 /**/
+
+
+				 for(int j=1; j<i; j++){
 					ColumnArr[j]=(gcnew System::Windows::Forms::DataGridViewTextBoxColumn());//esto crea una nueva columna
 					this->ColumnArr[j]->HeaderText= gcnew String(atributos[j].c_str());//texto del titulo
 					this->ColumnArr[j]->Name=gcnew String(atributos[j].c_str());//nombre de la columna (para efectos de donde agregar datos)
-					this->TablaCSV->Columns->Add(ColumnArr[j]);
+					this->TablaCSV->Columns->Add(ColumnArr[j]);//agrega a la tabla
 				 }
-				 labelResultado -> Text = gcnew String(line.c_str());
+				 aux=1;//seteo en 1 para la escribir la primera fila de resultados
+
+				 /*Con las tablas bien encabezadas, empezamos a agregar los datos*/
+				 while ( myfile.good() ){
+					 getline (myfile,line);//leo nueva linea
+					 
+					 char *token, *aux_cstr; //auxiliares para tokenizar nuevamente
+					 int k=1;
+					 
+					 /*primer elemento en cada fila es su numero*/
+					 
+					 /*proceso de tokenizar*/
+					 array<String^> ^valores= gcnew array<String^>(i); 
+					 
+					 valores[0]=Convert::ToString(aux);
+					 
+					 aux_cstr = new char[line.size()+1];
+					 strcpy (aux_cstr, line.c_str());
+					 token=strtok(aux_cstr, ",");
+					 
+					 while(token!=NULL){
+						valores[k++]=gcnew String(token);
+						token=strtok(NULL,",");
+					 }
+					 /*tokenizado terminado, en valores[] estan todos los valores que se encontraban en la linea*/
+					 this->TablaCSV->Rows->Add(valores);
+					 
+
+
+					 /*limpio la memoria por esta iteracion*/
+					 delete[] token;
+					 delete[] aux_cstr;
+					 delete[] valores;
+					 aux++;
+				 }
 				 
+
+
+				 
+				 /*limpiamos cosas que ya no usaremos*/
 				 delete[] cstr; 
 				 delete[] p;
 				 delete[] atributos;
 
+				 //termino y cierro archivo
+				 labelResultado -> Text = "Done";
 				 myfile.close();
 			 }
 			 catch (...){
