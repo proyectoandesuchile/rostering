@@ -164,3 +164,7 @@ pip-log.txt
 
 patrones*.txt
 
+/GenerarPatrones/nbproject/private/
+/Arquitectura
+/database
+/ReadFromFile
