@@ -1,4 +1,5 @@
 package generarpatrones;
+import java.io.*;
 
 
 public class GenerarPatrones {
@@ -9,34 +10,52 @@ public class GenerarPatrones {
     public GenerarPatrones(int turnos, int dias){
         this.turnos=turnos;
         this.dias = dias;
-        this.todos= generarPatrones(turnos, dias);
+        //this.todos= generarPatrones(turnos, dias);
     }
     
     public String getTodos(){
         return this.todos;
     }
     
-    public String generarPatrones(int turnos, int dias){
+    public void generarPatrones(int turnos, int dias){
         String salida="";
-        for(int i=0; i<turnos; i++){
-                salida+=(pasoRecursivo(dias,turnos, ""+i));
-            }
-        return salida;
-    }
-    
-    public String pasoRecursivo(int avance, int turnos, String actual){
-        String resultado="";
-        if(avance==1){
-            return actual+"\n";
-        }
-        else {
+        File f;
+        f = new File("patrones.txt");
+        try{
+            FileWriter w = new FileWriter(f);
+            BufferedWriter bw = new BufferedWriter(w);
+            PrintWriter wr = new PrintWriter(bw);
+            
             for(int i=0; i<turnos; i++){
-                resultado+=(pasoRecursivo(avance-1,turnos,actual+","+i));
-            }
-            return resultado;
+                    pasoRecursivo(dias,turnos, ""+i,wr, bw);
+                }
+            wr.close();
+            bw.close();
+        }
+        catch(Exception e){
+            
         }
     }
     
+    public void pasoRecursivo(int avance, int turnos, String actual, PrintWriter wr, BufferedWriter bw){
+        try{
+            if(avance==1){
+                wr.append(actual);
+                bw.newLine();
+            }
+            else {
+                for(int i=0; i<turnos; i++){
+                    pasoRecursivo(avance-1,turnos,actual+","+i,wr,bw);
+                }
+            }
+        }
+        catch(Exception e){
+        }
+    }
+    
+
+    /*recorre todo el "archivo"
+     */
     public String encontrarSecuencia(String secuencia){
         String salida="";
         String linea="";
