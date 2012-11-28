@@ -5,6 +5,7 @@ import java.io.*;
 public class GenerarPatrones {
     private int turnos;
     private int dias;
+    private String noche;
     private String nombre;
     private String todos;
     
@@ -12,7 +13,7 @@ public class GenerarPatrones {
         this.nombre = nombre;
         this.turnos=turnos;
         this.dias = dias;
-        this.todos= "";
+        this.noche= ""+(turnos-2);
         generarPatrones(turnos, dias);
     }
     
@@ -45,12 +46,16 @@ public class GenerarPatrones {
             PrintWriter wr, BufferedWriter bw){
         try{
             if(avance==1){
-                wr.append(actual);
-                //aqui vendria toda la logica que le queremos poner al programa
-                //por ejemplo: cantidad de findes o domingo libre.
+                if( revisarDiasLibres(actual, 2) && revisarSalientes(actual)
+                        && true) {
+                    wr.append(actual);
                 
-                wr.append(";"+getFindeSemanas(actual));
-                bw.newLine();
+                    wr.append(";"+getFindeSemanas(actual));
+                    bw.newLine();
+                }
+                else
+                    return;
+                
             }
             else {
                 for(int i=0; i<turnos; i++){
@@ -59,7 +64,7 @@ public class GenerarPatrones {
             }
         }
         catch(Exception e){
-            System.err.println(e);
+            System.err.println("Error:"+e);
         }
     }
     
@@ -72,5 +77,41 @@ public class GenerarPatrones {
             return "1";
         }
         return resultado;
-    }    
+    }
+     
+    public boolean revisarDiasLibres(String actual, int num){
+        String dias[]=actual.split(",");
+        int libres=0;
+        for(int i=0; i<dias.length; i++){
+            if(dias[i].compareTo("0")==0){
+                libres++;
+            }
+        }
+        if(libres<2){
+            return false;
+        }
+                    
+        return true;
+    }
+    
+    public boolean revisarSalientes(String actual){
+        if( actual.lastIndexOf(""+(this.turnos-1))==-1){//si no hay salientes
+            return true;//cumple con la condicion
+        }
+        String dias[]= actual.split(",");
+        for(int i=1; i<dias.length;i++){
+            //si estoy en un saliente
+            //y el dia anterior NO fue noche, entonces FAIL
+            if(dias[i].compareTo(""+(this.turnos-1))==0 && dias[i-1].compareTo(this.noche)!=0){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
+    public boolean avoid(String actual, String patron){
+        return true;
+    }   
 }
+
