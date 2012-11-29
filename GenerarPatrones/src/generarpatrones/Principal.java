@@ -6,7 +6,7 @@ public class Principal {
       
     public static void main(String[] args) {
         //generaTodos los patrones
-        GenerarPatrones patrones= new GenerarPatrones(3,7);
+        GenerarPatrones patrones= new GenerarPatrones(5,7);
         //System.out.println(patrones.getTodos());
         //System.out.println(patrones.encontrarSecuencia("0,0"));
         //String nombres[]=separar(patrones.encontrarSecuencia(",0,0"));
