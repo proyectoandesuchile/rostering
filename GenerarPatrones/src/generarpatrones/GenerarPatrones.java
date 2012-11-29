@@ -9,8 +9,8 @@ public class GenerarPatrones {
     private String nombre;
     private String todos;
     
-    public GenerarPatrones(int turnos, int dias, String nombre){
-        this.nombre = nombre;
+    public GenerarPatrones(int turnos, int dias){
+        this.nombre = turnos+"x"+dias;
         this.turnos=turnos;
         this.dias = dias;
         this.noche= ""+(turnos-2);
@@ -47,7 +47,7 @@ public class GenerarPatrones {
         try{
             if(avance==1){
                 if( revisarDiasLibres(actual, 2) && revisarSalientes(actual)
-                        && true) {
+                        && revisarSeparacionDeTurnos(actual)) {
                     wr.append(actual);
                 
                     wr.append(";"+getFindeSemanas(actual));
@@ -107,6 +107,17 @@ public class GenerarPatrones {
             }
         }
         
+        return true;
+    }
+    
+    public boolean revisarSeparacionDeTurnos(String actual){
+        String []dias= actual.split(",");
+        for(int i=0; i<dias.length-1; i++){
+            if( Integer.parseInt(dias[i])>Integer.parseInt(dias[i+1]) 
+                    && Integer.parseInt(dias[i+1])!=0){
+                return false;
+            }
+        }
         return true;
     }
     
