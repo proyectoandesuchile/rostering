@@ -5,12 +5,16 @@ import java.io.*;
 public class GenerarPatrones {
     private int turnos;
     private int dias;
+    private String noche;
+    private String nombre;
     private String todos;
     
     public GenerarPatrones(int turnos, int dias){
+        this.nombre = turnos+"x"+dias;
         this.turnos=turnos;
         this.dias = dias;
-        //this.todos= generarPatrones(turnos, dias);
+        this.noche= ""+(turnos-2);
+        generarPatrones(turnos, dias);
     }
     
     public String getTodos(){
@@ -18,9 +22,9 @@ public class GenerarPatrones {
     }
     
     public void generarPatrones(int turnos, int dias){
-        String salida="";
         File f;
-        f = new File("patrones.txt");
+        String filename= this.nombre+".txt";
+        f = new File(filename);
         try{
             FileWriter w = new FileWriter(f);
             BufferedWriter bw = new BufferedWriter(w);
@@ -33,15 +37,25 @@ public class GenerarPatrones {
             bw.close();
         }
         catch(Exception e){
-            
+            System.err.println(e);
         }
     }
     
-    public void pasoRecursivo(int avance, int turnos, String actual, PrintWriter wr, BufferedWriter bw){
+    
+    public void pasoRecursivo(int avance, int turnos, String actual, 
+            PrintWriter wr, BufferedWriter bw){
         try{
             if(avance==1){
-                wr.append(actual);
-                bw.newLine();
+                if( revisarDiasLibres(actual, 2) && revisarSalientes(actual)
+                        && revisarSeparacionDeTurnos(actual)) {
+                    wr.append(actual);
+                
+                    wr.append(";"+getFindeSemanas(actual));
+                    bw.newLine();
+                }
+                else
+                    return;
+                
             }
             else {
                 for(int i=0; i<turnos; i++){
@@ -50,61 +64,65 @@ public class GenerarPatrones {
             }
         }
         catch(Exception e){
+            System.err.println("Error:"+e);
         }
     }
     
 
     /*recorre todo el "archivo"
      */
-    public String encontrarSecuencia(String secuencia){
-        String salida="";
-        String linea="";
-        for(int i=0; i<(this.todos.length()/((2*this.dias))); i++){
-            //int m= this.todos.length();
-            int j= i*((2*this.dias));
-            linea= this.todos.substring(j, j+2*(this.dias)-1);
-            //System.out.println("::"+linea+"::");
-            if(linea.indexOf(secuencia)!=-1){
-                salida+= i+",";
+    public String getFindeSemanas(String semana){
+        String resultado="0";
+        if( semana.substring(semana.length()-3).compareTo("0,0")==0 ){
+            return "1";
+        }
+        return resultado;
+    }
+     
+    public boolean revisarDiasLibres(String actual, int num){
+        String dias[]=actual.split(",");
+        int libres=0;
+        for(int i=0; i<dias.length; i++){
+            if(dias[i].compareTo("0")==0){
+                libres++;
             }
         }
-        return salida;
+        if(libres<2){
+            return false;
+        }
+                    
+        return true;
     }
     
-    public void eliminar(String []indices){
-        String nuevo_todos="";
-        int k= Integer.parseInt(indices[0]);
-        for(int i=0; i<(this.todos.length()/((2*this.dias))); i++){
-            int j= i*((2*this.dias));
-            
-            if(indices[k].compareTo(""+i)==0){
-                if(k<indices.length-1){
-                    k++;
-                    continue;
-                }
-                else{
-                    continue;
-                }
-            }
-
-            else{
-                nuevo_todos+=this.todos.substring(j, j+2*(this.dias));
-            }
-        }      
-        this.todos=nuevo_todos;
-    }
-    
-    
-    public void eliminarLinea(String indice){
-        String nuevo_todos="";
-        for(int i=0; i<(this.todos.length()/((2*this.dias))); i++){
-            int j= i*((2*this.dias));
-            if(indice.compareTo(""+i)!=0){
-                nuevo_todos+=this.todos.substring(j, j+2*(this.dias));
+    public boolean revisarSalientes(String actual){
+        if( actual.lastIndexOf(""+(this.turnos-1))==-1){//si no hay salientes
+            return true;//cumple con la condicion
+        }
+        String dias[]= actual.split(",");
+        for(int i=1; i<dias.length;i++){
+            //si estoy en un saliente
+            //y el dia anterior NO fue noche, entonces FAIL
+            if(dias[i].compareTo(""+(this.turnos-1))==0 && dias[i-1].compareTo(this.noche)!=0){
+                return false;
             }
         }
         
-        this.todos= nuevo_todos;
+        return true;
     }
     
+    public boolean revisarSeparacionDeTurnos(String actual){
+        String []dias= actual.split(",");
+        for(int i=0; i<dias.length-1; i++){
+            if( Integer.parseInt(dias[i])>Integer.parseInt(dias[i+1]) 
+                    && Integer.parseInt(dias[i+1])!=0){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean avoid(String actual, String patron){
+        return true;
+    }   
 }
+
